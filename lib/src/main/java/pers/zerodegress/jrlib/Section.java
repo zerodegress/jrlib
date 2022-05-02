@@ -72,4 +72,13 @@ public class Section {
     public String getName() {
         return name;
     }
+
+    public String toSectionText() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("[%s]", name)).append(Util.lineSeperator).append(note).append(Util.lineSeperator);
+        for (Entry<String, String> entry : properties.entrySet()) {
+            sb.append(String.format("%s:%s", entry.getKey(), entry.getValue())).append(Util.lineSeperator);
+        }
+        return sb.toString();
+    }
 }

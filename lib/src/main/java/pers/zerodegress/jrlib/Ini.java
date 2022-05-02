@@ -79,4 +79,13 @@ public class Ini {
     public Collection<Section> getSections() {
         return sections.values();
     }
+
+    public String toIniText() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(note).append(Util.lineSeperator);
+        for (Section section : sections.values()) {
+            sb.append(section.toSectionText()).append(Util.lineSeperator);
+        }
+        return sb.toString().strip();
+    }
 }

@@ -1,6 +1,9 @@
 package pers.zerodegress.jrlib;
 
 public final class Util {
+
+    public static final String lineSeperator = System.getProperty("line.separator");
+
     public static boolean isValidFilename(String filename) {
         if (filename == null || filename.length() > 255) {
             return false;

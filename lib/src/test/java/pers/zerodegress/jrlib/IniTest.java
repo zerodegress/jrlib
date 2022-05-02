@@ -9,5 +9,7 @@ public class IniTest {
         Ini ini = new Ini();
         ini.add("newSection");
         assertEquals(ini.get("newSection") != null, true);
+        ini.get("newSection").add("test", "123");
+        System.out.println(ini.toIniText());
     }
 }
