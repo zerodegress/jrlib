@@ -63,9 +63,8 @@ public class Ini {
                 if (ptr == null) {
                     throw new CodeException("ini文本头部出现属性");
                 }
-                //TODO:修复这里的数组访问越界问题
-                String key = line.split(":", 1)[0].strip();
-                String value = line.split(":", 1)[1].strip();
+                String key = line.split(":", 2)[0].strip();
+                String value = line.split(":", 2)[1].strip();
                 if (value.endsWith("\"\"\"")) {
                     StringBuilder vb = new StringBuilder(value);
                     while (true) {
