@@ -1,20 +1,26 @@
 package pers.zerodegress.jrlib;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class Ini {
     private String filename;
     private String note;
     private int lastSectionPos;
-    private Hashtable<String, Section> sections;
+    private Map<String, Section> sections;
 
     public Ini() {
         filename = "untitled.ini";
         note = "";
-        sections = new Hashtable<>();
+        sections = new TreeMap<>();
         lastSectionPos = 0;
     }
 
@@ -24,8 +30,62 @@ public class Ini {
         }
         this.filename = filename;
         note = "";
-        sections = new Hashtable<>();
+        sections = new TreeMap<>();
         lastSectionPos = 0;
+    }
+
+    public static Ini parse(String src) {
+        Ini ini = new Ini();
+        Section ptr = null;
+        String[] lines = src.split("\\r?\\n");
+        Iterator<String> linesIter = Arrays.asList(lines).iterator();
+        while (linesIter.hasNext()) {
+            String line = linesIter.next().strip();
+            if (line.isBlank()) {
+                continue;
+            }
+            else if (line.startsWith("#")) {
+                if (ptr == null) {
+                    ini.setNote(ini.getNote() + line + Util.lineSeperator);
+                } else {
+                    ptr.setNote(ptr.getNote() + line + Util.lineSeperator);
+                }
+            }
+            else if (line.matches("\\[.+\\]")) {
+                if (ptr != null) {
+                    ptr.setNote(ptr.getNote().strip());
+                }
+                String sectionName = line.replace("[", "").replace("]", "");
+                ini.add(sectionName);
+                ptr = ini.get(sectionName);
+            }
+            else if (line.contains(":")) {
+                if (ptr == null) {
+                    throw new CodeException("ini文本头部出现属性");
+                }
+                //TODO:修复这里的数组访问越界问题
+                String key = line.split(":", 1)[0].strip();
+                String value = line.split(":", 1)[1].strip();
+                if (value.endsWith("\"\"\"")) {
+                    StringBuilder vb = new StringBuilder(value);
+                    while (true) {
+                        if (!linesIter.hasNext()) {
+                            throw new CodeException("ini文本三引号不封闭");
+                        }
+                        vb.append(linesIter.next());
+                        if (vb.toString().strip().endsWith("\"\"\"")) {
+                            value = vb.toString();
+                            break;
+                        }
+                    }
+                }
+                ptr.add(key, value);
+            }
+            else {
+                throw new CodeException("ini文本出现未定义元素");
+            }
+        }
+        return ini;
     }
 
     public void add(String sectionName) {
