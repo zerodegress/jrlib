@@ -1,15 +1,13 @@
 package pers.zerodegress.jrlib;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class Ini {
     private String filename;
@@ -20,7 +18,7 @@ public class Ini {
     public Ini() {
         filename = "untitled.ini";
         note = "";
-        sections = new TreeMap<>();
+        sections = new LinkedHashMap<>();
         lastSectionPos = 0;
     }
 
@@ -30,7 +28,7 @@ public class Ini {
         }
         this.filename = filename;
         note = "";
-        sections = new TreeMap<>();
+        sections = new LinkedHashMap<>();
         lastSectionPos = 0;
     }
 

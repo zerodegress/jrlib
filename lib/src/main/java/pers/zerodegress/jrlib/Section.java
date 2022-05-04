@@ -2,9 +2,8 @@ package pers.zerodegress.jrlib;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
@@ -18,14 +17,14 @@ public class Section {
         this.name = name;
         note = "";
         pos = 0;
-        properties = new TreeMap<>();
+        properties = new LinkedHashMap<>();
     }
 
     public Section(String name, int pos) {
         this.name = name;
         note = "";
         this.pos = pos;
-        properties = new TreeMap<>();
+        properties = new LinkedHashMap<>();
     }
     
     public String get(String key) {
