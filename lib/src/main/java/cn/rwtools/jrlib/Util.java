@@ -1,4 +1,4 @@
-package pers.zerodegress.jrlib;
+package cn.rwtools.jrlib;
 
 public final class Util {
 

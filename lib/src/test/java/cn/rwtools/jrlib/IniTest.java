@@ -1,4 +1,4 @@
-package pers.zerodegress.jrlib;
+package cn.rwtools.jrlib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +20,6 @@ public class IniTest {
         ini.get("newSection").add("test", "123");
         Ini nIni = Ini.parse(ini.toIniText());
         assertEquals(nIni.get("newSection") != null, true);
-        assertEquals(nIni.get("newSection").get("test"), "123");
+        assertEquals(nIni.get("newSection").getAsString("test"), "123");
     }
 }
